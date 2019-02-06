@@ -1,0 +1,103 @@
+Description:
+-My doubly-linked-list implementation has a dummy node. Each node has a value and a pointer to the previous and next node
+-The nodes are added to the end of the list. So, new nodes are always the tail.
+
+
+
+Pseudocode for non-trivial programs:
+
+Subtract:
+	iterate through smaller list (or either one if sizes are equal):
+		use "get" function to obtain a value from list
+		use "contain" function to check if the value exists in the other list:
+			if so, insert the value into the set that was passed by reference
+
+
+Unite: 
+	iterate through one list:
+		use "get" function to obtain a value
+		use "insert" function to insert value into set that was passed by reference
+
+	do the same with the other list ("insert" takes duplicates into account)
+
+
+Testing:
+	assert(uls.insert(10)); //inserting element into empty list
+	assert(uls.insert(20)); //inserting element into non-empty list
+	assert(uls.size() == 2); //checking size function on non-empty list
+	assert(uls.contains(20)); //checking contains function to return true
+	assert(!uls.contains(15)); //checking contains function to return false
+	ItemType x = 30;
+	assert(uls.get(0, x) && x == 10); //checking wheter get function works properly
+	assert(uls.get(1, x) && x == 20);
+	uls.insert(30);
+	uls.insert(40);
+	uls.insert(50);
+	uls.insert(60);
+	assert(uls.size() == 6);
+	Set other(uls); //testing copy constructor
+
+	Set assign;
+	assign.insert(5);
+	assign.insert(15);
+	assign.insert(25);
+	assign.insert(35);
+	assign = uls; //testing for assignment operator on an object with multiple nodes in list
+	assign = assign; //testing for wheter assignment operator deals with aliasing (no data members should be modified)
+
+	cout << "------uls-------" << endl;
+	uls.dump();
+
+	cout << "------assign----" << endl;
+	assign.dump();
+	
+	other.erase(20);//testing erase function on element in list
+	other.erase(30); 
+	assert(!other.erase(15)); //testing erase function on element not in list (should return false without modifying list)
+	assert(other.size() == 4); //testing wheter size function worked properly after erase
+
+	cout << "------other-----" << endl;
+	other.dump();
+
+	Set empty;
+	assert(empty.empty()); //testing if empty function works properly
+	assert(!empty.erase(30)); //testing erase on empty function
+	assert(empty.size() == 0); //testing if size works on an empty function
+
+	empty = uls; //testing assignment operator on an object with an empty list
+	cout << "--------empty---" << endl;
+	empty.dump();
+
+	Set sub;
+	subtract(other, uls, sub); //testing subtract -- sub should contain 20 , 30
+	cout << "---------sub----" << endl;
+	sub.dump();
+
+	subtract(uls, sub, sub); // testing subtract where s2 and result are the same object : sub should contain all ints in uls except for 20 and 30
+	cout << "---------sub----" << endl;
+	sub.dump();
+
+
+	sub.insert(25);
+	sub.insert(52);
+	sub.insert(50);
+
+
+	Set un;
+	unite(sub, uls, un); // testing unite function: un should contain all the values of uls along with 25 and 52, with no duplicates
+	cout << "-----un---------" << endl;
+	un.dump();
+
+	unite(uls, uls, un); // testing unite function for passing the same object: un's list should match uls
+	cout << "-----un---------" << endl;
+	un.dump();
+
+	un.insert(20);
+	un.insert(17);
+	un.insert(30);s
+	un.insert(27);
+
+	unite(un, uls, un); //testing unite function for same object in s1 and in result parameters: un should contain the elememts of uls alonf with 17 and 27  w/o any duplicates
+	cout << "-----un---------" << endl;
+	un.dump();
+
