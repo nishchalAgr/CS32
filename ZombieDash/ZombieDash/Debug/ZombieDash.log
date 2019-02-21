@@ -1,7 +1,62 @@
 ﻿  Actor.cpp
-  GameController.cpp
-  GameWorld.cpp
-  main.cpp
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\studentworld.h(21): error C2065: 'Actor': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\studentworld.h(21): error C2059: syntax error: '>'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\studentworld.h(22): error C2143: syntax error: missing ';' before '*'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\studentworld.h(22): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\studentworld.h(22): error C2238: unexpected token(s) preceding ';'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.cpp(46): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.cpp(53): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.cpp(60): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.cpp(67): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
   StudentWorld.cpp
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(13): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(26): error C2143: syntax error: missing ';' before '*'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(26): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(26): error C2334: unexpected token(s) preceding '{'; skipping apparent function body
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(31): error C2143: syntax error: missing ';' before '*'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(31): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(31): error C2238: unexpected token(s) preceding ';'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(14): error C2065: 'type': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(16): error C2065: 'm_world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(16): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(39): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(42): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(40): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(40): error C2065: 'type': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(43): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(43): error C2065: 'type': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(63): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(64): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(64): error C2065: 'type': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(84): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(85): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(85): error C2065: 'type': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(97): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(98): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(107): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(108): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(117): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(118): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(129): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(130): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(139): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(140): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(149): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(150): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(159): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(160): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(169): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(170): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(179): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(180): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(196): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(197): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(206): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(207): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(218): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(219): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(233): error C2061: syntax error: identifier 'StudentWorld'
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\actor.h(234): error C2065: 'world': undeclared identifier
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\studentworld.cpp(39): error C2661: 'Penelope::Penelope': no overloaded function takes 3 arguments
+c:\users\nishchal's pc\documents\cs32\zombiedash\zombiedash\studentworld.cpp(43): error C2661: 'Wall::Wall': no overloaded function takes 3 arguments
   Generating Code...
-  ZombieDash.vcxproj -> C:\Users\Nishchal's PC\Documents\ZombieDash\Debug\ZombieDash.exe

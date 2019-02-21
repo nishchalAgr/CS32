@@ -2,30 +2,53 @@
 #define ACTOR_H_
 
 #include "GraphObject.h"
+#include "StudentWorld.h"
 
 // Students:  Add code to this file, Actor.cpp, StudentWorld.h, and StudentWorld.cpp
 // base classes ---------------------------------
 class Actor : public GraphObject {
 
 public:
-	Actor(int imageID, int x, int y, int depth) :
-		GraphObject(imageID, x, y, 0, depth) {};
+	
+	Actor(int imageID, int x, int y, int depth, StudentWorld* world, char type) :
+		GraphObject(imageID, x, y, 0, depth), m_type(type) {
+	
+		m_world = world;
+	
+	};
+
+	char getType() {
+		return m_type;
+	};
+
+	virtual void doSomething() = 0;
+
+	StudentWorld* getWorld() {
+		return m_world;
+	};
 
 private:
-	virtual void doSomething() = 0;
+	StudentWorld* m_world;
+	char m_type;
 
 };
 
 class Item : public Actor {
 
 public:
-	Item(int imageID, int x, int y, int depth) :
-		Actor(imageID, x, y, depth), m_alive(true) {}; //constuctor that gives default direction
+	Item(int imageID, int x, int y, int depth, StudentWorld* world, char type) :
+		Actor(imageID, x, y, depth, world, type), m_alive(true) {}; //constuctor that gives default direction
 
-	Item(int imageID, int x, int y, int depth, int dir) : //constructor that allows for direction defined at construction
-		Actor(imageID, x, y, depth), m_alive(true) 
+	Item(int imageID, int x, int y, int depth, int dir, StudentWorld* world, char type) : //constructor that allows for direction defined at construction
+		Actor(imageID, x, y, depth, world, type), m_alive(true)
 	{
 		this->setDirection(dir);
+	};
+	bool isAlive() {
+		return m_alive;
+	};
+	void setAlive() {
+		m_alive = !m_alive;
 	};
 
 
@@ -37,8 +60,17 @@ private:
 class Person : public Item {
 
 public:
-	Person(int imageID, int x, int y) :
-		Item(imageID, x, y, 0), m_infStatus(false), m_infCount(0) {};
+	Person(int imageID, int x, int y, StudentWorld* world, char type) :
+		Item(imageID, x, y, 0, world, type), m_infStatus(false), m_infCount(0) {};
+	int getInfStatus() {
+		return m_infStatus;
+	};
+	int getInfCount() {
+		return m_infCount;
+	};
+	void setInfCount(int count) {
+		m_infCount = count;
+	};
 
 private:
 	bool m_infStatus;
@@ -49,8 +81,8 @@ private:
 class Zombie : public Item {
 
 public:
-	Zombie(int imageID, int x, int y) :
-		Item(imageID, x, y, 0), m_movePlan(0) {};
+	Zombie(int imageID, int x, int y, StudentWorld* world, char type) :
+		Item(imageID, x, y, 0, world, type), m_movePlan(0) {};
 
 private:
 	int m_movePlan;
@@ -62,24 +94,30 @@ private:
 class Wall : public Actor {
 
 public:
-	Wall(int x, int y) :
-		Actor(IID_WALL, x, y, 0){};
+	Wall(int x, int y, StudentWorld* world) :
+		Actor(IID_WALL, x, y, 0, world, 'w'){};
+	
+	virtual void doSomething();
 
 };
 
 class Pit : public Actor {
 
 public:
-	Pit(int x, int y) :
-		Actor(IID_PIT, x, y, 0) {};
+	Pit(int x, int y, StudentWorld* world) :
+		Actor(IID_PIT, x, y, 0, world, 'p') {};
+
+	virtual void doSomething();
 
 };
 
 class Exit : public Actor {
 
 public:
-	Exit(int x, int y) :
-		Actor(IID_EXIT, x, y, 1) {};
+	Exit(int x, int y, StudentWorld* world) :
+		Actor(IID_EXIT, x, y, 1, world, 'e') {};
+
+	virtual void doSomething();
 
 };
 
@@ -88,54 +126,65 @@ public:
 class Flame : public Item {
 
 public:
-	Flame(int x, int y, int dir) : //dir given at construction
-		Item(IID_FLAME, x, y, 0, dir) {};
+	Flame(int x, int y, int dir, StudentWorld* world) : //dir given at construction
+		Item(IID_FLAME, x, y, 0, dir, world, 'f') {};
 
-
+	virtual void doSomething();
 
 };
 
 class Vomit : public Item {
 
 public:
-	Vomit(int x, int y, int dir) : //dir given at construction
-		Item(IID_VOMIT, x, y, 0, dir) {};
+	Vomit(int x, int y, int dir, StudentWorld* world) : //dir given at construction
+		Item(IID_VOMIT, x, y, 0, dir, world, 'v') {};
+
+	virtual void doSomething();
 
 };
 
 class VaccineGoodie : public Item {
 
 public:
-	VaccineGoodie(int x, int y) : 
-		Item(IID_VACCINE_GOODIE, x, y, 1) {};
+	VaccineGoodie(int x, int y, StudentWorld* world) :
+		Item(IID_VACCINE_GOODIE, x, y, 1, world, 'V') {};
+
+	virtual void doSomething();
 
 };
 
 class GasCanGoodie : public Item {
 
 public:
-	GasCanGoodie(int x, int y) :
-		Item(IID_GAS_CAN_GOODIE, x, y, 1) {};
+	GasCanGoodie(int x, int y, StudentWorld* world) :
+		Item(IID_GAS_CAN_GOODIE, x, y, 1, world, 'g') {};
+
+	virtual void doSomething();
 
 };
 
 class LandmineGoodie : public Item {
 
 public:
-	LandmineGoodie(int x, int y) :
-		Item(IID_LANDMINE_GOODIE, x, y, 1) {};
+	LandmineGoodie(int x, int y, StudentWorld* world) :
+		Item(IID_LANDMINE_GOODIE, x, y, 1, world, 'L') {};
+
+	virtual void doSomething();
 
 };
 
 class Landmine : public Item {
 
 public:
-	Landmine(int x, int y) :
-		Item(IID_LANDMINE, x, y, 1) {}, m_safetyTicks(30), m_inactive(false);
+	Landmine(int x, int y, StudentWorld* world) :
+		Item(IID_LANDMINE, x, y, 1, world, 'l'), m_safetyTicks(30), m_inactive(false) {};
+	
+	virtual void doSomething();
 
 private:
 	int m_safetyTicks;
 	bool m_inactive;
+
 
 };
 
@@ -144,16 +193,20 @@ private:
 class DumbZombie : public Zombie {
 
 public:
-	DumbZombie(int x, int y) :
-		Zombie(IID_ZOMBIE, x, y) {};
+	DumbZombie(int x, int y, StudentWorld* world) :
+		Zombie(IID_ZOMBIE, x, y, world, 'd') {};
+
+	virtual void doSomething();
 
 };
 
 class SmartZombie : public Zombie {
 
 public:
-	SmartZombie(int x, int y) :
-		Zombie(IID_ZOMBIE, x, y) {};
+	SmartZombie(int x, int y, StudentWorld* world) :
+		Zombie(IID_ZOMBIE, x, y, world, 's') {};
+
+	virtual void doSomething();
 
 };
 
@@ -162,16 +215,25 @@ public:
 class Penelope : public Person {
 
 public:
-	Penelope(int x, int y) :
-		Person(IID_PLAYER, x, y) {};
+	Penelope(int x, int y, StudentWorld* world) :
+		Person(IID_PLAYER, x, y, world, 'p'), m_landmineCount(0), m_flameCount(0), m_vaccineCount(0) {};
+	
+	virtual void doSomething();
+
+private:
+	int m_landmineCount;
+	int m_flameCount;
+	int m_vaccineCount;
 
 };
 
 class Citizen : public Person {
 
 public:
-	Citizen(int x, int y) :
-		Person(IID_CITIZEN, x, y) {};
+	Citizen(int x, int y, StudentWorld* world) :
+		Person(IID_CITIZEN, x, y, world, 'c') {};
+
+	virtual void doSomething();
 
 };
 

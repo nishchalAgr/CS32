@@ -2,10 +2,11 @@
 #define STUDENTWORLD_H_
 
 #include "GameWorld.h"
+#include "Actor.h"
 #include <string>
+#include <list>
 
 // Students:  Add code to this file, StudentWorld.cpp, Actor.h, and Actor.cpp
-
 
 class StudentWorld : public GameWorld
 {
@@ -14,10 +15,11 @@ public:
     virtual int init();
     virtual int move();
     virtual void cleanUp();
+	bool contains(int x, int y, char type);
 
 private:
-	int m_px;
-	int m_py;
+	std::list<Actor*> m_objList;
+	Penelope* m_player;
 
 };
 
