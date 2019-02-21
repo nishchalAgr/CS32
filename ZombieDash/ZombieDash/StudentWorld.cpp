@@ -2,7 +2,6 @@
 #include "GameConstants.h"
 #include "Level.h"
 #include <string>
-using namespace std;
 
 GameWorld* createStudentWorld(string assetPath)
 {
@@ -12,7 +11,7 @@ GameWorld* createStudentWorld(string assetPath)
 // Students:  Add code to this file, StudentWorld.h, Actor.h and Actor.cpp
 
 StudentWorld::StudentWorld(string assetPath)
-: GameWorld(assetPath)
+	: GameWorld(assetPath)
 {
 }
 
@@ -30,52 +29,61 @@ int StudentWorld::init()
 		cerr << "Successfully loaded level" << endl;
 		for (int x = 0; x < 16; x++) {
 			for (int y = 0; y < 16; y++) {
-				
+
 				Level::MazeEntry ge = lev.getContentsOf(x, y);
-				
+
 				switch (ge) {
-				
+
 				case Level::player:
 					m_player = new Penelope(SPRITE_WIDTH * x, SPRITE_HEIGHT * y, this);
 					break;
 
 				case Level::wall:
-					Wall *temp = new Wall(x,y,this);
+					Wall *temp = new Wall(SPRITE_WIDTH * x, SPRITE_HEIGHT * y, this);
 					m_objList.push_front(temp);
 					break;
 				}
 			}
 		}
 	}
-    return GWSTATUS_CONTINUE_GAME;
+	return GWSTATUS_CONTINUE_GAME;
 }
 
 int StudentWorld::move()
 {
-    // This code is here merely to allow the game to build, run, and terminate after you hit enter.
-    // Notice that the return value GWSTATUS_PLAYER_DIED will cause our framework to end the current level.
+	// This code is here merely to allow the game to build, run, and terminate after you hit enter.
+	// Notice that the return value GWSTATUS_PLAYER_DIED will cause our framework to end the current level.
 
 	if (!m_player->isAlive()) return GWSTATUS_PLAYER_DIED;
 
 	m_player->doSomething();
 
-	for (list<Actor*>::iterator p = m_objList.begin(); p != m_objList.end(); p++)
+	for (list<Wall*>::iterator p = m_objList.begin(); p != m_objList.end(); p++)
 		(*p)->doSomething();
 
-    //decLives();
-    return GWSTATUS_CONTINUE_GAME;
+	//decLives();
+	return GWSTATUS_CONTINUE_GAME;
 }
 
 void StudentWorld::cleanUp()
 {
 }
 
-bool StudentWorld::contains(int x, int y, char type) {
+bool StudentWorld::contains(int x, int y) {
 
-	for (list<Actor*>::iterator p = m_objList.begin(); p != m_objList.end(); p++) {
-	
-		if ((*p)->getType() == type && (*p)->getX() == x && (*p)->getY() == y) return true;
-	
+	int tempX;
+	int tempY;
+
+	for (list<Wall*>::iterator p = m_objList.begin(); p != m_objList.end(); p++) {
+
+		//cout << (*p)->getX() << "," << (*p)->getY() << endl;
+		//cout << "~" << x << "," << y << endl;
+
+		tempX = (*p)->getX();
+		tempY = (*p)->getY();
+
+		if (tempX + (SPRITE_WIDTH - 1)/2 >= x && tempX - (SPRITE_WIDTH - 1) / 2 <= x && tempY + (SPRITE_WIDTH - 1)/2 >= y && tempY - (SPRITE_WIDTH - 1) / 2 <= y) return true;
+
 	}
 
 	return false;

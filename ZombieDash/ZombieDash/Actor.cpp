@@ -2,8 +2,6 @@
 #include "StudentWorld.h"
 #include <list>
 
-using namespace std;
-
 // Students:  Add code to this file, Actor.h, StudentWorld.h, and StudentWorld.cpp
 //
 //IID_PLAYER(for Penelope)
@@ -27,7 +25,7 @@ void Penelope::doSomething() {
 	if (getInfStatus()) setInfCount(getInfCount() + 1);
 
 	else if (getInfCount() == 500) {
-	
+
 		setAlive();
 
 		this->getWorld()->playSound(SOUND_PLAYER_DIE);
@@ -37,35 +35,35 @@ void Penelope::doSomething() {
 	}
 
 	int ch;
-	
+
 	if (this->getWorld()->getKey(ch)) {
-	
+
 		switch (ch) {
-		
+
 		case KEY_PRESS_UP:
-			if (!(this->getWorld()->contains(getX(), getY() + 1, 'w'))) {
+			if (!(this->getWorld()->contains(getX(), SPRITE_HEIGHT/2 + (getY() + 1)))) {
 				setDirection(up);
 				moveTo(getX(), getY() + 1);
 			}
 			break;
 
 		case KEY_PRESS_DOWN:
-			if (!(this->getWorld()->contains(getX(), getY() - 1, 'w'))) {
-				setDirection(up);
+			if (!(this->getWorld()->contains(getX(), -SPRITE_HEIGHT/2 + (getY() - 1)))) {
+				setDirection(down);
 				moveTo(getX(), getY() - 1);
 			}
 			break;
 
 		case KEY_PRESS_RIGHT:
-			if (!(this->getWorld()->contains(getX() + 1, getY(), 'w'))) {
-				setDirection(up);
+			if (!(this->getWorld()->contains(SPRITE_WIDTH/2 + (getX() + 1),getY()))) {
+				setDirection(right);
 				moveTo(getX() + 1, getY());
 			}
 			break;
 
 		case KEY_PRESS_LEFT:
-			if (!(this->getWorld()->contains(getX() - 1, getY(), 'w'))) {
-				setDirection(up);
+			if (!(this->getWorld()->contains(-SPRITE_WIDTH/2 + (getX() - 1),getY()))) {
+				setDirection(left);
 				moveTo(getX() - 1, getY());
 			}
 			break;
