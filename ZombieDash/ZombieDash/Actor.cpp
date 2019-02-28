@@ -19,18 +19,6 @@ using namespace std;
 //IID_EXIT
 //IID_WALL
 
-bool isOverlap(int x1, int y1, int x2, int y2) {
-
-	int deltaX = x1 - x2;
-	int deltaY = y1 - y2;
-
-	if (deltaX < 0) deltaX = -deltaX;
-	if (deltaY < 0) deltaY = -deltaY;
-
-	return deltaX * deltaX + deltaY * deltaY <= 100;
-
-}
-
 void Penelope::doSomething() {
 
 	if (isAlive() == false) return;
@@ -58,28 +46,29 @@ void Penelope::doSomething() {
 
 		case KEY_PRESS_UP:
 			setDirection(up);
-			if (!(this->getWorld()->contains(x, y + SPRITE_HEIGHT / 2 + 1))) {
+			if (!(this->getWorld()->contains(x, y + SPRITE_HEIGHT / 2 + 1, '#'))) {
 				moveTo(getX(), getY() + 1);
 			}
+			//else cout << "collide" << endl;
 			break;
 
 		case KEY_PRESS_DOWN:
 			setDirection(down);
-			if (!(this->getWorld()->contains(x, y - SPRITE_HEIGHT / 2 - 1))) {
+			if (!(this->getWorld()->contains(x, y - SPRITE_HEIGHT / 2 - 1, '#'))) {
 				moveTo(getX(), getY() - 1);
 			}
 			break;
 
 		case KEY_PRESS_RIGHT:
 			setDirection(right);
-			if (!(this->getWorld()->contains(x + SPRITE_WIDTH / 2 + 1, y))) {
+			if (!(this->getWorld()->contains(x + SPRITE_WIDTH / 2 + 1, y, '#'))) {
 				moveTo(getX() + 1, getY());
 			}
 			break;
 
 		case KEY_PRESS_LEFT:
 			setDirection(left);
-			if (!(this->getWorld()->contains(x - SPRITE_WIDTH / 2 - 1, y))) {
+			if (!(this->getWorld()->contains(x - SPRITE_WIDTH / 2 - 1, y, '#'))) {
 				moveTo(getX() - 1, getY());
 			}
 			break;
@@ -98,25 +87,24 @@ void Wall::doSomething() {
 
 void Exit::doSomething() {
 
-	int thisX;
-	int thisY;
-	int pX;
-	int pY;
+	int thisX = this->getX();
+	int thisY = this->getY();
 
-	list<Actor*> tempList = this->getWorld()->getObjList;
-	for (list<Actor*>::iterator p = tempList.begin(); p != tempList.end(); p++) {
+	Actor* temp = this->getWorld()->overlap(thisX, thisY, '@');
+	//list<Actor*> tempList = this->getWorld()->getObjList();
 
-		thisX = this->getX();
-		thisY = this->getY();
-		pX = (*p)->getX();
-		pY = (*p)->getY();
+	if (temp != nullptr) {
 
-		if ((*p)->getType() == 'C' && isOverlap(thisX, thisY, pX, pY)) {
+		if (this->getWorld()->citizenDead()) this->getWorld()->setLevelFinish();
 
-			(*p)->setAlive(); //kill the citizen
+	}
 
-		}
+	temp = this->getWorld()->overlap(thisX, thisY, 'C');
 
+	if (temp != nullptr) {
+		//add 500 points
+		temp->setAlive(); //kill the citizen
+		this->getWorld()->playSound(SOUND_CITIZEN_SAVED);
 	}
 
 }

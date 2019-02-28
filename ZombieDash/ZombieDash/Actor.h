@@ -15,15 +15,15 @@ class Actor : public GraphObject {
 public:
 
 	Actor(int imageID, int x, int y, int depth, StudentWorld* world, char type) :
-		GraphObject(imageID, x, y, 0, depth) {
+		GraphObject(imageID, x, y, 0, depth), m_type(type) {
 
 		m_world = world;
 
 	}
 
 	virtual void doSomething() = 0;
-	virtual void setAlive();
-	virtual bool isAlive();
+	virtual void setAlive() { return; };
+	virtual bool isAlive() { return false; };
 
 	StudentWorld* getWorld() {
 		return m_world;
@@ -120,7 +120,6 @@ class Pit : public Actor {
 public:
 	Pit(int x, int y, StudentWorld* world) :
 		Actor(IID_PIT, x, y, 0, world, 'O') {};
-
 
 	void doSomething();
 
