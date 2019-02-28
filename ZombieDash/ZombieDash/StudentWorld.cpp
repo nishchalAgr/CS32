@@ -3,6 +3,8 @@
 #include "Level.h"
 #include <string>
 
+using namespace std;
+
 GameWorld* createStudentWorld(string assetPath)
 {
 	return new StudentWorld(assetPath);
@@ -54,11 +56,11 @@ int StudentWorld::move()
 	// This code is here merely to allow the game to build, run, and terminate after you hit enter.
 	// Notice that the return value GWSTATUS_PLAYER_DIED will cause our framework to end the current level.
 
-	if (!m_player->isAlive()) return GWSTATUS_PLAYER_DIED;
+	//if (!m_player->isAlive()) return GWSTATUS_PLAYER_DIED;
 
 	m_player->doSomething();
 
-	for (list<Wall*>::iterator p = m_objList.begin(); p != m_objList.end(); p++)
+	for (list<Actor*>::iterator p = m_objList.begin(); p != m_objList.end(); p++)
 		(*p)->doSomething();
 
 	//decLives();
@@ -67,24 +69,86 @@ int StudentWorld::move()
 
 void StudentWorld::cleanUp()
 {
+	for (list<Actor*>::iterator p = m_objList.begin(); p != m_objList.end(); p++)
+		delete *p;
+	delete m_player;
 }
 
 bool StudentWorld::contains(int x, int y) {
 
-	int tempX;
-	int tempY;
+	int tempX1;
+	int tempY1;
+	int tempX2;
+	int tempY2;
 
-	for (list<Wall*>::iterator p = m_objList.begin(); p != m_objList.end(); p++) {
+	int right = 0;
+	int left = 180;
+	int up = 90;
+	int down = 270;
+
+	for (list<Actor*>::iterator p = m_objList.begin(); p != m_objList.end(); p++) {
 
 		//cout << (*p)->getX() << "," << (*p)->getY() << endl;
 		//cout << "~" << x << "," << y << endl;
 
-		tempX = (*p)->getX();
-		tempY = (*p)->getY();
+		tempX1 = (*p)->getX() - SPRITE_WIDTH / 2;//left bound
+		tempX2 = (*p)->getX() + SPRITE_WIDTH / 2;//right bound
+		tempY1 = (*p)->getY() - SPRITE_HEIGHT / 2;//lower bound
+		tempY2 = (*p)->getY() + SPRITE_HEIGHT / 2;//upper bound
 
-		if (tempX + (SPRITE_WIDTH - 1)/2 >= x && tempX - (SPRITE_WIDTH - 1) / 2 <= x && tempY + (SPRITE_WIDTH - 1)/2 >= y && tempY - (SPRITE_WIDTH - 1) / 2 <= y) return true;
+		if (m_player->getDirection() == right) {
+			//cout << "right" << endl;
+			//x += SPRITE_WIDTH / 2;
+			if (x >= tempX1 && x <= tempX2 && y >= tempY1 && y <= tempY2) return true;
 
+		}
+		else if (m_player->getDirection() == left) {
+
+			//x = x - SPRITE_WIDTH / 2;
+			if (x >= tempX1 && x <= tempX2 && y >= tempY1 && y <= tempY2) return true;
+
+		}
+		else if (m_player->getDirection() == up) {
+
+			//y = y + SPRITE_HEIGHT / 2;
+			if (x >= tempX1 && x <= tempX2 && y >= tempY1 && y <= tempY2) return true;
+
+		}
+		else if (m_player->getDirection() == down) {
+
+			//y = y - SPRITE_HEIGHT / 2;
+			if (x >= tempX1 && x <= tempX2 && y >= tempY1 && y <= tempY2) return true;
+
+		}
 	}
 
 	return false;
 }
+
+std::list<Actor*> StudentWorld::getObjList() {
+
+	return m_objList;
+
+}
+
+//bool StudentWorld::overlaps(int x, int y, char startType, char type) {
+//
+//	int tempX;
+//	int tempY;
+//
+//	for (list<Actor*>::iterator p = m_objList.begin(); p != m_objList.end(); p++){
+//		
+//		tempX = (*p)->getX();
+//		tempY = (*p)->getY();
+//
+//		if ((*p)->getType() == type && isOverlap(x, y, tempX, tempY)) {
+//
+//			if((*p)->getType() == type)
+//
+//			return true;
+//
+//		}
+//	}
+//
+//	return false;
+//}
