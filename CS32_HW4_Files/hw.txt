@@ -1,0 +1,21 @@
+2. When we are using Coord for insert, we end up comparing two Coord objects to check if they are the same object using the "==" operator.This is 
+incorrect because the Coord class does not have the "==" defined, while int and string do.
+
+4. a. The answer is O(N^3) because the algorithm has a loop that iterates until N that has a nested loop that iterates until N, which also has a nested 
+loop until N. We are essentially looping through N items N times, N times. So, the big O notation must be N(O^3)  
+   b. The answer is O(N^3) because the algorithm does the same thing as the above algorithm, except one of the nested loops runs to i instead of N. This 
+results in a big O notation of O(cN^3), where c is a constant of proportionality, which is ignored in our cases. 
+
+5. a. The answer is O(N) because the only operation that depends on the size of the data is the one for-loop, which iterates N times, in the unite function.
+The function called inside the for-loop, insert(), has no operations dependent on the size of the data. Thus, our big O notation must be O(N)
+   b. The answer is O(N log N). The algorithm has three loops which iterate N times, carrying out operations not dependent on the size of the data in each iteration.
+The algorithm also contains a sorting alogorithm with a big O notation of N log N. Thus, the total big O notation would be O(3N + N log N). However, because
+we are just considering the largest order, we ignore the 3N, making the answer O(N log N)
+   c. The answer is O(N). In the worst case, the first while-loop(which goes through (constant * N) iterations) never iterates the p2 pointer. Thus in the next for-loop, the p2 pointer starts at the
+beginning of the list and iterates through the entire list, which is N items long. So, after dropping constants of proportionality, the time complexity is 
+O(N)
+
+
+
+
+
