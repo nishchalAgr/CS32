@@ -34,6 +34,51 @@ private:
 };
 
 template<typename ValueType>
+void combine(std::vector<ValueType> &copyInto, std::vector<ValueType> copyFrom) {
+	for (int i = 0; i < copyFrom.size(); i++) {
+		copyInto.push_back(copyFrom[i]);
+	}
+	/*for (int i = 0; i < copyInto.size(); i++) {
+		std::cout << copyInto[i] << std::endl;
+	}*/
+}
+
+template<typename ValueType>
+std::vector<ValueType> recursiveFind(const std::string&	key, bool exactMatchOnly, node<ValueType>* root, int index){
+	
+	std::vector<ValueType> temp;
+	if (root == nullptr) return temp;//if root is nullptr, return empty vector
+
+	char check = key[index];
+
+	if (root->children.size() == 0 && (!exactMatchOnly || root->key == check)) {
+		if (index != key.size() - 1) return temp;
+		combine(temp, root->value);
+		return temp;
+	}
+
+	if (root->key != check) {
+		if (index == 0 || exactMatchOnly == true) return temp; //if first char of key or if we need to be exact, return empty temp
+		exactMatchOnly = true; //otherwise, indicate that we have used up our only mismatch 
+	}
+
+	for (int i = 0; i < root->children.size(); i++) {
+		combine(temp, recursiveFind(key, exactMatchOnly, root->children[i], index + 1));
+	}
+
+	return temp;
+}
+
+template<typename ValueType>
+std::vector<ValueType> Trie<ValueType>::find(const std::string&	key, bool exactMatchOnly) const {
+	std::vector<ValueType> temp;
+	for (int i = 0; i < root->children.size(); i++)
+		combine(temp, recursiveFind(key, exactMatchOnly, root->children[i], 0));
+
+	return temp;
+}
+
+template<typename ValueType>
 void deleteTree(node<ValueType>* root) {
 	if (root == nullptr) return;
 	for (int i = 0; i < root->children.size(); i++)
