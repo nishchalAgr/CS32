@@ -26,9 +26,9 @@ void Trie<ValueType>::print() {
 
 void somefunc()
 {
-	//	Specify	the	full	path	and	name	of	the	gene	data	file	on	your	hard	drive.
-	string filename = "C:/Users/Nishchal's PC/Documents/CS32/CS32_Proj4_Files/Gee-nomics/data/Desulfurococcus_mucosus.txt";
-	//	Open	the	data	file	and	get	a	ifstream object	that	can	be	used	to	read	its
+	//	Specify	the	full path and name of the gene data	file on	your hard drive.
+	string filename = "C:/Users/Nishchal's PC/Documents/CS32/CS32_Proj4_Files/Gee-nomics/data/Halorubrum_californiense.txt";
+	//	Open the data file and get a ifstream object that can be used to read its
 	//	contents.
 	ifstream strm(filename);
 	if (!strm)
@@ -36,8 +36,8 @@ void somefunc()
 		cout << "Cannot	open " << filename << endl;
 		return;
 	}
-	vector<Genome>	vg;
-	bool success = Genome::load(strm, vg);		//	Load	the	data	via	the	stream.
+	vector<Genome> vg;
+	bool success = Genome::load(strm, vg); // Load the data via the stream.
 	cout << success << endl;
 	if (success)
 	{
@@ -47,7 +47,7 @@ void somefunc()
 	}
 	else
 		cout << "Error loading genome data" << endl;
-}		//	destructor	for	ifstream	closes	the	file	
+}		//	destructor for ifstream closes the file	
 
 int main() {
 	//Trie<int> temp;

@@ -54,7 +54,7 @@ bool GenomeImpl::load(istream& genomeSource, vector<Genome>& genomes)
 
 			name = line.substr(1);
 
-			cout << name << endl;
+			//cout << name << endl;
 
 		}
 
@@ -76,7 +76,7 @@ bool GenomeImpl::load(istream& genomeSource, vector<Genome>& genomes)
 
 	genomes.push_back(Genome(name, gene));
 
-	cout << "hello" << endl;
+	//cout << "hello" << endl;
 
     return true;  // This compiles, but may not be correct
 }
@@ -93,7 +93,16 @@ string GenomeImpl::name() const
 
 bool GenomeImpl::extract(int position, int length, string& fragment) const
 {
-    return false;  // This compiles, but may not be correct
+	if (position + length > m_seq.size()) {
+		return false;
+	}
+
+	fragment = "";
+
+	for (int i = position; i < position + length; i++)
+		fragment += m_seq[i];
+
+    return true;  // This compiles, but may not be correct
 }
 
 //******************** Genome functions ************************************

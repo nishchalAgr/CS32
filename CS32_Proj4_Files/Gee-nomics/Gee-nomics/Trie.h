@@ -126,7 +126,7 @@ void recursiveInsert(const std::string& key, const ValueType& value, node<ValueT
 
 	for (int i = 0; i < root->children.size(); i++) {
 		if (root->children[i] != nullptr && root->children[i]->key == check) {
-			std::cout << "TRUE " << check <<  std::endl;
+			//std::cout << "TRUE " << check <<  std::endl;
 			recursiveInsert(restOfKey, value, root->children[i]);
 			return;
 		}
