@@ -8,11 +8,30 @@
 #include <cstdlib>
 using namespace std;
 
+#if defined(_MSC_VER)  &&  !defined(_DEBUG)
+#include <iostream>
+#include <windows.h>
+#include <conio.h>
+
+struct KeepWindowOpenUntilDismissed
+{
+	~KeepWindowOpenUntilDismissed()
+	{
+		DWORD pids[1];
+		if (GetConsoleProcessList(pids, 1) == 1)
+		{
+			std::cout << "Press any key to continue . . . ";
+			_getch();
+		}
+	}
+} keepWindowOpenUntilDismissed;
+#endif
+
 // Change the string literal in this declaration to be the path to the
 // directory that contains the genome data files we provide, e.g.,
 // "Z:/CS32/Geenomics/data" or "/Users/fred/cs32/Geenomics/data"
 
-const string PROVIDED_DIR = "../data";
+const string PROVIDED_DIR = "C:/Users/Nishchal's PC/Documents/CS32/CS32_Proj4_Files/Gee-nomics/data";
 
 const string providedFiles[] = {
 	"Ferroplasma_acidarmanus.txt",

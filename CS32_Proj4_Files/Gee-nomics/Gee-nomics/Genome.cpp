@@ -39,6 +39,8 @@ bool GenomeImpl::load(istream& genomeSource, vector<Genome>& genomes)
 
 	while (getline(genomeSource, line)) {
 		
+		//cout << line << endl;
+
 		if (line[0] == '>') {
 
 			if (first) {

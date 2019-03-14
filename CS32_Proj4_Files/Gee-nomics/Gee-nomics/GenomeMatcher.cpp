@@ -45,8 +45,11 @@ void GenomeMatcherImpl::addGenome(const Genome& genome)
 	int genomeNum = m_library.size() - 1; //index of genome in library
 	
 	for (int i = 0; i < temp.size() - m_minLen; i++) {
+
 		string ans = "(Genome " + to_string(genomeNum) + string(", position ") + to_string(i) + ")";
-		m_trie->insert(temp.substr(i, i + m_minLen), ans);
+		//cout << temp.substr(i, m_minLen) << endl;
+		m_trie->insert(temp.substr(i, m_minLen), ans);
+	
 	}
     // This compiles, but may not be correct
 }
@@ -109,41 +112,67 @@ bool GenomeMatcherImpl::findGenomesWithThisDNA(const string& fragment, int minim
 	if (minimumLength < m_minLen || fragment.size() < minimumLength) return false;
 
 	string smallFragment = fragment.substr(0, m_minLen);
-	vector<string> temp = m_trie->find(smallFragment, exactMatchOnly);
-		
+	vector<string> temp = m_trie->find(smallFragment, exactMatchOnly);;
+
+	//if (temp.empty()) cout << "EMPTY" << endl;
+
+	//cout << minimumLength << endl;
+	//cout << fragment.size() << endl;
+
 	if (temp.size() == 0) return false;
 
-	if (!exactMatchOnly) {
+	if (true) {
 		
 		for (int i = 0; i < temp.size(); i++) {
 
 			string gene = temp[i];
 			int num = getGeneNum(gene); //which genome is this from
+			//cout << i << " num   :" << num << endl;
 			int index = getGeneIndex(gene); //which index in the genome
-
-			string seq;
-			m_library[num].extract(index, minimumLength - m_minLen, seq);//get entire portion, we need to check for one mismatch
+			//cout << i << " index :" << index << endl;
 
 			int isNotMatch = 0;
-			int c = 0;
-			for (int j = index; j < index + minimumLength; j++) {
-				if (seq[c] != fragment[j]) {
-					isNotMatch++;
-					if (isNotMatch == 2) break; //if more than one mismatch, dont add it and go to the next genome
+			int size = minimumLength;
+			bool match = true;
+
+			for (int c = minimumLength; c <= fragment.size(); c++) {//check each size above the minimum
+				
+				isNotMatch = 0;
+
+				string seq;
+				m_library[num].extract(index, c, seq);//get entire portion, we need to check for one mismatch
+				
+				cout << "seq: " << seq << " - fragment: " << fragment << endl;
+
+				for (int a = 0; a < c; a++) {
+					if (fragment[a] != seq[a]) {
+						isNotMatch++;
+						//cout << "match: " << isNotMatch << endl;
+						if (exactMatchOnly) { 
+							match = false;
+							break;
+						}
+						if (!exactMatchOnly && (a == 0 || isNotMatch == 2)) {
+							match = false;
+							break; //if more than one mismatch, dont add it and go to the next genome
+						}
+					}
+
 				}
-				c++;
+
+				if (exactMatchOnly && isNotMatch == 0) size = c; //no mismatch allowed for exact match 
+				if (!exactMatchOnly && isNotMatch < 2) size = c;//one mismatch allowed for exactMatchOnly = false
 			}
 
-			if (isNotMatch >= 2) {
+			if (match) {
 
 				DNAMatch tempMatch;
 				tempMatch.genomeName = m_library[num].name();
 				tempMatch.position = index;
-				tempMatch.length = fragment.size();
+				tempMatch.length = size; //add the matching genome with the largest size
 				matches.push_back(tempMatch);
 
 			}
-			
 
 		}
 
@@ -151,41 +180,45 @@ bool GenomeMatcherImpl::findGenomesWithThisDNA(const string& fragment, int minim
 
 	}
 
-	//below if exactMatchOnly is true
-	for (int i = 0; i < temp.size(); i++) {
-			
-		string gene = temp[i];
-		int num = getGeneNum(gene);
-		int index = getGeneIndex(gene);
+	////below if exactMatchOnly is true
+	//for (int i = 0; i < temp.size(); i++) {
+	//		
+	//	string gene = temp[i];
+	//	int num = getGeneNum(gene);
+	//	int index = getGeneIndex(gene);
 
-		string seq;
-		m_library[num].extract(index + m_minLen, minimumLength - m_minLen, seq);//get portion that was not checked in trie->find
+	//	string seq;
+	//	m_library[num].extract(index + m_minLen, minimumLength - m_minLen, seq);//get portion that was not checked in trie->find
 
-		bool isMatch = true;
-		int c = 0;
-		for (int j = index + m_minLen; j < index + minimumLength - m_minLen; j++) {
-			if (seq[c] != fragment[j]) {
-				isMatch = false;
-			}
-			c++;
-		}
+	//	bool isMatch = true;
+	//	int c = 0;
+	//	for (int j = index + m_minLen; j < index + minimumLength - m_minLen; j++) {
+	//		if (seq[c] != fragment[j]) {
+	//			isMatch = false;
+	//		}
+	//		c++;
+	//	}
 
-		if (isMatch) {//if it is a match, add it to DNAMatch
-			DNAMatch tempMatch;
-			tempMatch.genomeName = m_library[num].name();
-			tempMatch.position = index;
-			tempMatch.length = fragment.size();
-			matches.push_back(tempMatch);
-		}
+	//	if (isMatch) {//if it is a match, add it to DNAMatch
+	//		DNAMatch tempMatch;
+	//		tempMatch.genomeName = m_library[num].name();
+	//		tempMatch.position = index;
+	//		tempMatch.length = fragment.size();
+	//		matches.push_back(tempMatch);
+	//	}
 
-	}
+	//}
 
-	return !(matches.size() == 0); 
+	//return !(matches.size() == 0); 
 }
 
 bool GenomeMatcherImpl::findRelatedGenomes(const Genome& query, int fragmentMatchLength, bool exactMatchOnly, double matchPercentThreshold, vector<GenomeMatch>& results) const
 {
 	int numOfFragments = query.length() / fragmentMatchLength;
+
+	//cout << "-----" << endl;
+	//cout << fragmentMatchLength << endl;
+	//cout << numOfFragments << endl;
 
 	int count = 0;
 	vector<DNAMatch> temp;
@@ -194,10 +227,17 @@ bool GenomeMatcherImpl::findRelatedGenomes(const Genome& query, int fragmentMatc
 
 		string seq;
 		query.extract(i*fragmentMatchLength, fragmentMatchLength, seq);
+		//cout << seq << endl;
 		findGenomesWithThisDNA(seq, fragmentMatchLength, exactMatchOnly, temp);
 
 	}
 
+	/*for (int i = 0; i < temp.size(); i++) {
+		cout << temp[i].genomeName << " " << temp[i].position << " " << temp[i].length << endl;
+	}
+
+	cout << "-----" << endl;
+*/
 	list<GenomeMatch> ans;
 
 	for (int i = 0; i < m_library.size(); i++) {
@@ -210,33 +250,40 @@ bool GenomeMatcherImpl::findRelatedGenomes(const Genome& query, int fragmentMatc
 
 		}
 
-		double percent = double(count) / double(numOfFragments);
+		double percent = double(count) / double(numOfFragments) * 100;
+
+		//cout << "count: " << count << endl;
+		//cout << "percent: " << percent << endl;
 
 		if (percent >= matchPercentThreshold) {
 		
-			GenomeMatch temp;
-			temp.genomeName = m_library[i].name();
-			temp.percentMatch = percent;
+			GenomeMatch tempMatch;
+			tempMatch.genomeName = m_library[i].name();
+			tempMatch.percentMatch = percent;
 		
-			if (ans.empty()) ans.push_back(temp);
+			if (ans.empty()) ans.push_back(tempMatch);
 
 			else {
 			
 				for (list<GenomeMatch>::iterator p = ans.begin(); p != ans.end(); p++) { //this is for inserting the genomeMatch in the correct order
 				
-					if (percent > (*p).percentMatch) ans.insert(p, temp);
+					if (percent > (*p).percentMatch) {
+						ans.insert(p, tempMatch);
+						break;
+					}
 
 					else if (percent == (*p).percentMatch) {
 					
-						if (temp.genomeName > (*p).genomeName)//if alphabetically greater, iterate forward and add the 
+						if (tempMatch.genomeName > (*p).genomeName)//if alphabetically greater, iterate forward and add the 
 							p++;
 
 						if (p == ans.end()) {
-							ans.push_back(temp);
+							ans.push_back(tempMatch);
 							break;
 						}
 
-						ans.insert(p, temp);					
+						ans.insert(p, tempMatch);		
+						break;
 					}
 				
 				}
@@ -251,7 +298,7 @@ bool GenomeMatcherImpl::findRelatedGenomes(const Genome& query, int fragmentMatc
 		results.push_back(*p);
 	}
 	//if (double(count) / double(numOfFragments) >= matchPercentThreshold) return true;
-    return false;  // This compiles, but may not be correct
+    return true;  // This compiles, but may not be correct
 }
 
 //******************** GenomeMatcher functions ********************************

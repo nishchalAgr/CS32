@@ -47,7 +47,10 @@ template<typename ValueType>
 std::vector<ValueType> recursiveFind(const std::string&	key, bool exactMatchOnly, node<ValueType>* root, int index){
 	
 	std::vector<ValueType> temp;
+	//std::cout << "1 ";
 	if (root == nullptr) return temp;//if root is nullptr, return empty vector
+	//std::cout << "2" << std::endl;
+
 
 	char check = key[index];
 
